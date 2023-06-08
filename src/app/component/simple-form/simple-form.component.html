@@ -1,0 +1,61 @@
+<div class="container-fluid" style="width: 500px; border: 1px solid yellow; padding: 30px; border-radius: 4px;
+                                    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); transition: 0.3s; margin-top: 50px;">
+    <h3 style="text-align: center; color: darkgoldenrod;">Enrollment Form</h3>
+    <form #userForm="ngForm" (ngSubmit)="onSubmit()" novalidate
+    style="margin-top: 10px;">
+        
+        
+        <div class="form-group">
+            <label>Name</label>
+            <input type="text" required #name = "ngModel" [class.is-invalid]="name.invalid && name.touched" 
+                        class="form-control" name="name" [(ngModel)] = "userModel.name">
+            <small class="text-danger" [class.d-none] = "name.valid || name.untouched">Name is required</small>
+        </div>
+        <div class="form-group">
+            <label>Email</label>
+            <input type="email" class="form-control" name="email" [(ngModel)] = "userModel.email">
+        </div>
+        <div class="form-group">
+            <label>Mobile No</label>
+            <input type="mobile" required #mobile ="ngModel" pattern="^\d{10}$" [class.is-invalid]="mobile.invalid && mobile.touched"
+                    class="form-control" name="mobile" [(ngModel)] = "userModel.mobile" >
+            <small class="text-danger" [class.d-none] = "mobile.valid || mobile.untouched">Mobile no is required & must be 10 digits</small>
+            <!-- <div *ngIf="mobile.errors && (mobile.invalid || mobile.untouched)">
+                <small class="text-danger" *ngIf = "mobile.errors.required" >Mobile no is required </small>
+                <small class="text-danger" *ngIf = "mobile.errors.pattern">Mobile no is required & must be 10 digits</small>
+            </div> -->
+        </div>
+        <div class="form-group" style="margin-top: 10px;">
+            <select  (blur)="validateTopics(topic.value)" (change)="validateTopics(topic.value)"  class="custom-select"  
+            #topic ="ngModel" [class.is-invalid]="topicHasError && topic.touched" name="topic" [(ngModel)] = "userModel.topic">
+                <option value="default">Select your subject</option>
+                <option *ngFor="let topic of topics">{{ topic }}</option>
+            </select>
+            <small class="text-danger" [class.d-none] = "!topicHasError || topic.untouched">Please choose a topic</small>
+        </div>
+        <div class="mb-3" style="margin-top: 10px;">
+            <label >Time Preference</label>
+            <div class="form-check">
+                <input type="radio" class="form-check-input" name="timepreference" value="morning" [(ngModel)] = "userModel.timepreference"> 
+                <label class="form-check-label">Morning (9AM - 12PM)</label>
+            </div>
+
+            <div class="form-check">
+                <input type="radio" class="form-check-input" name="timepreference" value="evening" [(ngModel)] = "userModel.timepreference">
+                <label class="form-check-label">Morning (5PM - 8PM)</label>
+            </div>
+        </div>
+
+        <div class="form-check mb-3">
+            <input type="checkbox" name="subscribe" class="form-check-input" [(ngModel)] = "userModel.subscribe">
+            <label class="form-check-label">Send me relevent messages</label>
+        </div>
+
+        <button class="btn btn-success" type="submit" [disabled]="userForm.form.invalid || topicHasError"
+                style="align-items: center; text-align: center;">Submit</button>
+
+
+
+  
+    </form>
+</div>
